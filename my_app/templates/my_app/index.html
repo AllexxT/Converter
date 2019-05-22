@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{% static 'my_app/css/myapp.css' %}"
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Hello Django</title>
+    <script>
+    $(function(){
+        $("#aj").click(function(event){
+            dic = {"Solo":322, "Dread":"GoStreamZaebal"}
+            data = JSON.stringify(dic)
+            var csrf_token = $('[name="csrfmiddlewaretoken"]').attr('value')
+            console.log(csrf_token)
+            $.ajax({
+                url: location.href + "ajax/",
+                method: "POST",
+                data: {"pack": data},
+                dataType:"json",
+                success: function(data){
+                    data['toString'] = function(){
+                        let str = '';
+                        for (let key in this){
+                            if(key === 'toString'){continue};
+                            str += 'Key &#8658; [' + key + '] Value &#8658; [' + this[key] + ']<br/>';
+                        }
+                        return str;
+                    }
+                    $("#ajx").html(String(data))
+                }
+            })
+            event.preventDefault();
+        })
+        
+    })
+    </script>
+</head>
+<body>
+    <h1>Welcome to Django!</h1>
+    <form method="POST">
+    {% csrf_token %}
+        <input type='text' name='test'>
+        <input type="submit" id="go">
+    </form>
+    <br>
+
+    <form id="ajaxform" method="POST">
+    {% csrf_token %}
+        <input type="submit" id="aj" value="ajx">
+    </form>
+
+    <div id="responce">
+        <h2>{{ data }}<h2>
+    <div>
+    <h1 id="ajx"></h1>
+</body>
+</html>
