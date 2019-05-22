@@ -3,8 +3,11 @@ body {
     text-align: center;
 }
 
+
+
 .textareas {
     resize: none;
+    background-color: rgb(233, 230, 230);
 }
 
 /* .resp {
